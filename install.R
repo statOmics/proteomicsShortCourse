@@ -1,4 +1,5 @@
 install.packages("tidyverse")
 install.packages("rmarkdown")
+source("https://bioconductor.org/biocLite.R")
 install.packages("devtools")
 devtools::install_github("compomics/search-all-assess-subset")
