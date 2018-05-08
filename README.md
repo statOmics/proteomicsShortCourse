@@ -5,6 +5,3 @@ This is established by building upon Binder, which is supporting R + RStudio, wi
 snapshot on [MRAN](https://mran.microsoft.com/documents/rro/reproducibility).
 
 RStudio: [![Binder](http://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/statOmics/proteomicsShortCourse/master?urlpath=rstudio)
-
-Jupyter:
-[![Binder](http://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/statOmics/proteomicsShortCourse/master)
