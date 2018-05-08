@@ -1,5 +1,9 @@
-##Launch saas
+#Launch saas
+Maximum file size is set at 100 Mb.
+For larger file sizes you will have to adjust the maxFileSize statement.
+
 ```{r}
-library(saas)
-saas_gui()
+maxFileSize=100
+options(shiny.maxRequestSize=maxFileSize*1024^2)
+source("evalDecoysShiny")
 ```
