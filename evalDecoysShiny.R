@@ -98,5 +98,3 @@ Import mzid file and assess decoy quality.
 ),
 mainPanel(width = 8,  plotOutput('histPlot'),plotOutput('ppPlot'))
            ))
-
-shinyApp(uiEvalDecoys, serverEvalDecoys)
