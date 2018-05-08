@@ -1,5 +1,3 @@
-install.packages("tidyverse")
-install.packages("rmarkdown")
 install.packages("rjson")
 source("https://bioconductor.org/biocLite.R")
 biocLite("mzID")
