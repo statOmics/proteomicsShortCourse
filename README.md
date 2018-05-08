@@ -1,7 +1,14 @@
 #Proteomics Shortcourse
 
-We will use R shiny apps for quantitative proteomics.
-This is established by building upon Binder, which is supporting R + RStudio, with libraries pinned to a specific
-snapshot on [MRAN](https://mran.microsoft.com/documents/rro/reproducibility).
+[![Binder](http://mybinder.org/badge.svg)](http://mybinder.org/v2/gh/statOmics/proteomicsShortCourse/master)
 
-RStudio: [![Binder](http://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/statOmics/proteomicsShortCourse/master?urlpath=rstudio)
+Launch an R studio interface on R docker with bioconductor packages. 
+
+Running RStudio session
+-----------------------
+
+To start your RStudio session once [the Binder server](http://mybinder.org/v2/gh/statOmics/proteomicsShortCourse/master) has launched and you are greeted with the Jupyter dashboard, click on "New" in the top right,
+and at the bottom will be `RStudio Session`.
+Click that and your RStudio session will begin momentarily!
+
+See `instructions.ipynb` for more details.
