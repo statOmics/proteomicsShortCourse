@@ -40,9 +40,7 @@ RUN python3 -m venv ${VENV_DIR} && \
 RUN R --quiet -e "devtools::install_github('IRkernel/IRkernel')" && \
     R --quiet -e "IRkernel::installspec(prefix='${VENV_DIR}')"
 
-
-CMD jupyter notebook --ip 0.0.0.0
-
-
 ## Run an install.R script, if it exists.
 RUN if [ -f install.R ]; then R --quiet -f install.R; fi
+
+CMD jupyter notebook --ip 0.0.0.0
