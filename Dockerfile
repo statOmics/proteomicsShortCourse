@@ -44,4 +44,5 @@ RUN R --quiet -e "devtools::install_github('IRkernel/IRkernel')" && \
 CMD jupyter notebook --ip 0.0.0.0
 
 
-## If extending this image, remember to switch back to USER root to apt-get
+## Run an install.R script, if it exists.
+RUN if [ -f install.R ]; then R --quiet -f install.R; fi
