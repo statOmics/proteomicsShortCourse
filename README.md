@@ -17,3 +17,9 @@ Once inside Jupyter Notebook, RStudio Server should be an option under the menu
 "New":
 
 ![](img/rstudio-session.jpg)
+
+Credits
+-------
+- The [rocker-binder team](https://github.com/rocker-org/binder) for providing a docker image with shiny proxy support.
+- Adriaan Sticker and Ludger Goeminne, statOmics developers of MSqRob and saas.
+- Laurant Gatto developer of MSnBase.
