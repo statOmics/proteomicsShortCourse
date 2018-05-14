@@ -467,7 +467,8 @@ sidebarLayout(
  htmlOutput("selectSummarisation"),
  hidden(helpText(id="tooltip_summarisation",
                  "Select the type of summarization from the dropdown menu.
-                 "))
+                 ")),
+                 actionButton(inputId="downloadProtSum", label="Save protein intensities")
      )
  )
  ),

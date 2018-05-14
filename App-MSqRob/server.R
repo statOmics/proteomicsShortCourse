@@ -1003,6 +1003,22 @@ progressSaveExcel <- NULL
   ########################################################################################
   ###Save the volcano and detail plots when the downloadResultPlots button is clicked#####
   ########################################################################################
+observeEvent(input$downloadProtSum, {
+if (!is.null(protSum()))
+{
+savepath <- getDataPath(saveFolder$folder)
+savepath <- gsub("//","/",file.path(savepath, paste0(input$project_name,"_",gsub(" |:","_",Sys.time()))))
+dir.create(savepath)
+openxlsx::write.xlsx(exprs(protSum()), file = file.path(savepath, paste0(input$project_name,"_","proteinSummaries.xlsx")), colNames = TRUE, rowNames = TRUE)
+}
+})
+
+observeEvent(input$downloadProtSum, {
+  showNotification("Protein summaries are saved", duration = 1.5)
+})
+  ########################################################################################
+  ###Save the volcano and detail plots when the downloadResultPlots button is clicked#####
+  ########################################################################################
 
   observeEvent(input$downloadResultPlots, {
 
