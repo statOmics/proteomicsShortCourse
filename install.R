@@ -1,3 +1,6 @@
 install.packages('rjson')
 source("https://bioconductor.org/biocLite.R")
-biocLite("limma")
+biocLite("shinyjs")
+biocLite("shinyjs")
+biocLite("shinythemes")
+biocLite("lgatto/MSnbase")
