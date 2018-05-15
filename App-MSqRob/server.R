@@ -30,96 +30,6 @@ shinyServer(function(input, output, session) {
     updateCheckboxInput(session, "onlysite", value = value)
   })
 
-  saveFolder <- reactiveValues(folder = NULL)
-
-  #Function to check if save folder is set
-  check_save_folder <- function(save_folder){
-    if(is.null(save_folder) | length(save_folder)==0){stop("No output location selected!")
-    } else if(is.na(save_folder)){
-      stop("No output folder selected!")
-    } else if(!dir.exists(save_folder)){
-      stop("Output folder does not exist!")
-    }
-  }
-
-  output$folderError <- renderText({
-    check_save_folder(saveFolder$folder)
-  })
-
-  observeEvent(input$outputFolder,{
-
-    if(Sys.info()['sysname']=="Darwin"){
-      saveFolder$folder <- tryCatch(
-        choose.dir2()
-        , error=function(e){
-          library(svDialogs)
-          svDialogs::dlgDir()$res
-        })
-    } else if(Sys.info()["sysname"]=="Linux"){
-      saveFolder$folder <- tryCatch(
-        choose.dir_Linux()
-        , error=function(e){
-          library(svDialogs)
-          svDialogs::dlgDir()$res
-        })
-    } else{
-      saveFolder$folder <- tryCatch(
-        choose.dir()
-        , error=function(e){
-          library(svDialogs)
-          svDialogs::dlgDir()$res
-        })
-    }
-  })
-
-  output$outputFolderOut <- renderUI({
-
-    if(is.null(saveFolder$folder) | length(saveFolder$folder)==0){
-      style=""
-      value = NA
-    } else if(is.na(saveFolder$folder)){
-      style=""
-      value = NA
-    } else if(!dir.exists(saveFolder$folder)){
-      style=""
-      value = NA
-    } else{
-      style="visibility: visible;"
-      value = saveFolder$folder
-    }
-
-    # folderInput(inputId="outputFolder", label=span("Specify the location where your output will be saved", popify(bsButton("q_outputFolder", label = "", icon = icon("question"), style = "info", size = "extra-small")
-    #                                                , title = "Output directory",
-    #                                                content = "A new folder will be created in this directory. This folder will contain all your output. This includes your resulting Excel file as well",
-    #                                                placement = "right")), value = value, multiple = FALSE, accept = NULL, width = NULL, style=style)
-    folderInput(inputId="outputFolder", label=NULL, value = value, multiple = FALSE, accept = NULL, width = NULL, style=style)
-
-    })
-
-  observe({
-
-    #If no save folder or no peptides.txt file specified, do not allow to try to create an annotation data frame.
-    res <- try(check_save_folder(saveFolder$folder),silent = TRUE)
-
-    if(is.null(input$peptides) | class(res) == "try-error"){
-      shinyjs::disable("create_annot")
-    } else{
-      shinyjs::enable("create_annot")
-    }
-  })
-
-  #Button to initialize experimental annotation file
-  newExpAnnText <- eventReactive(input$create_annot, {
-    #Check if save folder is set
-    check_save_folder(saveFolder$folder)
-    init_ann_MQ_Excel(peptidesDatapath(), savepath=saveFolder$folder, output_name=paste0(input$project_name,"_experimental_annotation"), col_name="run", pattern="Intensity.", remove_pattern=TRUE)
-    newExpAnnText <- paste0("Annotation file initialized. Check ",saveFolder$folder,"/",input$project_name,"_experimental_annotation.xlsx. \n Adjust this file according to your experimental settings and upload it as your experimental annotation file.")
-    return(newExpAnnText)
-  })
-
-  output$newExpAnnText <- renderText({
-    newExpAnnText()
-  })
 
   ########################################################
   #Clear datapaths of backslashes (Needed on Windows only)
@@ -209,22 +119,8 @@ shinyServer(function(input, output, session) {
   })
   #Generate option of factor levels
   levelOptions <- reactive({
-    if((is.null(exp_annotation()) | is.null(input$fixed)) & (input$save!=2 | is.null(input$load_model$datapath))){
+    if((is.null(exp_annotation()) | is.null(input$fixed))) {
       NULL
-    } else if(input$save==2 & !is.null(input$load_model$datapath)){
-      #Load models
-      # progressSave <- NULL
-      # # Create a Progress object
-      # progressSave <- shiny::Progress$new()
-      #
-      # # Make sure it closes when we exit this reactive, even if there's an error
-      # on.exit(progressSave$close())
-      # progressSave$set(message = "Loading settings...", value = 0)
-
-      #Load only levelOptions (much faster!)
-      RData <- try(loads_MSqRob(file=modelDatapath(), variables="levelOptions"), silent=TRUE)
-      if(inherits(RData, 'try-error')){stop("Loading of model file failed. Please provide a valid RDatas model file.")}
-      levelOptions <- RData$levelOptions
     } else{
 
       optionsFixedSelected <- exp_annotation()[,input$fixed,drop=FALSE]
@@ -337,19 +233,22 @@ shinyServer(function(input, output, session) {
 
 
   ###Generation of output button###
-  # output$download_button <- renderUI({
-  #   if(!is.null(outputlist())){
-  #     downloadButton("downloadData", "Download")
-  #   }
-  # })
+   output$downloadButtonResults <- renderUI({
+     if(!is.null(outputlist())){
+     downloadButton("downloadResults", "Download results")     }
+   })
+   output$downloadButtonProtSum <- renderUI({
+     if(!is.null(protSum())){
+     downloadButton("downloadProtSum", "Download protein intensities")}
+   })
+
   ###Function invoked when output button is pushed###
   #Here comes what happens when we activate the go button, here are the real calculations
   #Maybe with progress bar...
 
 
+
 observe({
-  shinyjs::onclick("button_outputFolder",
-                   shinyjs::toggle(id = "tooltip_outputFolder", anim = TRUE))
   shinyjs::onclick("button_project_name",
                    shinyjs::toggle(id = "tooltip_project_name", anim = TRUE))
   shinyjs::onclick("button_input_type",
@@ -403,8 +302,6 @@ observe({
                    shinyjs::toggle(id = "tooltip_fixed", anim = TRUE))
   shinyjs::onclick("button_random",
                    shinyjs::toggle(id = "tooltip_random", anim = TRUE))
-  shinyjs::onclick("button_save",
-                   shinyjs::toggle(id = "tooltip_save", anim = TRUE))
   shinyjs::onclick("button_load_model",
                    shinyjs::toggle(id = "tooltip_load_model", anim = TRUE))
   shinyjs::onclick("button_analysis_type",
@@ -433,71 +330,7 @@ observe({
                    shinyjs::toggle(id = "tooltip_selPchPlot2", anim = TRUE))
 })
 
-  observe({
 
-    #Observe input$filter so that when going immediately to tab 3, select load model and then go to tab 2 leads also to disabled input$filter field.
-    input$filter
-
-    # Change on selection of tab?
-    # input$Input
-    # input$Quantification
-    # input$Preprocessing
-
-    if(input$save!=2){
-      shinyjs::enable("peptides")
-      shinyjs::enable("annotation")
-      shinyjs::enable("asis_numeric")
-      shinyjs::enable("onlysite")
-      shinyjs::enable("proteingroups")
-      shinyjs::enable("proteingroups_label")
-      shinyjs::enable("smallestUniqueGroups")
-      shinyjs::enable("minIdentified")
-      shinyjs::enable("filter")
-      shinyjs::enable("logtransform")
-      shinyjs::enable("log_base")
-      shinyjs::enable("normalisation")
-      shinyjs::enable("proteins")
-      shinyjs::enable("annotations")
-      shinyjs::enable("fixed")
-      shinyjs::enable("random")
-
-      # shinyjs::enable("evalnorm")
-      shinyjs::enable("selColPlotNorm1")
-      shinyjs::enable("preprocessing_extension")
-      shinyjs::enable("plotMDSPoints")
-      shinyjs::enable("plotMDSLabels")
-
-      shinyjs::enable("borrowFixed")
-      shinyjs::enable("borrowRandom")
-
-    } else if(input$save==2){
-      shinyjs::disable("peptides")
-      shinyjs::disable("annotation")
-      shinyjs::disable("asis_numeric")
-      shinyjs::disable("onlysite")
-      shinyjs::disable("proteingroups")
-      shinyjs::disable("proteingroups_label")
-      shinyjs::disable("smallestUniqueGroups")
-      shinyjs::disable("minIdentified")
-      shinyjs::disable("filter")
-      shinyjs::disable("logtransform")
-      shinyjs::disable("log_base")
-      shinyjs::disable("normalisation")
-      shinyjs::disable("proteins")
-      shinyjs::disable("annotations")
-      shinyjs::disable("fixed")
-      shinyjs::disable("random")
-
-      # shinyjs::disable("evalnorm")
-      shinyjs::disable("selColPlotNorm1")
-      shinyjs::disable("preprocessing_extension")
-      shinyjs::disable("plotMDSPoints")
-      shinyjs::disable("plotMDSLabels")
-
-      shinyjs::disable("borrowFixed")
-      shinyjs::disable("borrowRandom")
-    }
-  })
 
   processedvals = reactive({processInput(input)})
 
@@ -510,13 +343,6 @@ observe({
     })
 
   outputlist <- eventReactive(input$go, {
-
-  saveRDS(isolate(pepsN()),"/Users/lclement/Downloads/pepsN.rds")
-  cat("peptide object saved\n")
-
-    validate(
-      need((!is.null(saveFolder$folder) & length(saveFolder$folder)!=0), "No output folder selected!")
-    )
 
     validate(
       need( !is.null(input$fixed), "Please select at least one fixed effect!")
@@ -540,9 +366,6 @@ observe({
         }
       }
     }
-
-    #Check if saveFolder is correctly specified!
-    check_save_folder(saveFolder$folder)
 
     outputlist=list(RData=list(proteins=NULL,
                                models=NULL),
@@ -590,69 +413,18 @@ observe({
     outputlist$test <-  "DONE!"
 
 
-    ######
-    if(input$save!=3){
-
-      proteins <- outputlist$RData$proteins
-      models <- outputlist$RData$models
-      results <- outputlist$results
-
-      savepath <- getDataPath(saveFolder$folder)
-      savepath <- gsub("//","/",file.path(savepath, paste0(input$project_name,"_",gsub(" |:","_",Sys.time()))))
-      dir.create(savepath)
-      RData <- outputlist$RData #2 slots: "proteins" and "models"
-      RData$levelOptions <- levelOptions()
-      RData$fixed <- fixed
-      RData$random <- random
-      #RData$plot2DependentVars <- plot2DependentVars()
-
-      RData_env <- new.env()
-      assign("RData", RData, RData_env)
-      wd_old <- getwd()
-      setwd(savepath)
-      saves_MSqRob(RData, envir=RData_env, file=paste0(input$project_name,"_","models.RDatas"), shiny=TRUE, printProgress=TRUE, message="Saving models")
-      setwd(wd_old)
-
-      progressSaveExcel <- NULL
-      # Create a Progress object
-      progressSaveExcel <- shiny::Progress$new()
-
-      # Make sure it closes when we exit this reactive, even if there's an error
-      on.exit(progressSaveExcel$close())
-      progressSaveExcel$set(message = "Saving results...", value = 0)
-
-      #save(RData, file=file.path(savepath, paste0(input$project_name,"_","models.RDatas")))
-      openxlsx::write.xlsx(results, file = file.path(savepath, paste0(input$project_name,"_","results.xlsx")), colNames = TRUE, rowNames = TRUE)
-
-      updateProgress(progress=progressSaveExcel, detail="Saving to Excel file", n=1, shiny=TRUE, print=TRUE)
-
-      # #Bold header in Excel file:
-      # headerStyle <- openxlsx::createStyle(textDecoration = "bold")
-      # openxlsx::addStyle(wb, sheet = 1:length(results), headerStyle, rows = 1, cols = 1:ncol(results[[1]])) #, gridExpand = TRUE
-    } else {
-  results <- outputlist$results
-
-      savepath <- getDataPath(saveFolder$folder)
-      savepath <- gsub("//","/",file.path(savepath, paste0(input$project_name,"_",gsub(" |:","_",Sys.time()))))
-      dir.create(savepath)
-
-progressSaveExcel <- NULL
-    # Create a Progress object
-    progressSaveExcel <- shiny::Progress$new()
-
-    # Make sure it closes when we exit this reactive, even if there's an error
-    on.exit(progressSaveExcel$close())
-    progressSaveExcel$set(message = "Saving results...", value = 0)
-
-    openxlsx::write.xlsx(results, file = file.path(savepath, paste0(input$project_name,"_","results.xlsx")), colNames = TRUE, rowNames = TRUE)
-
-    updateProgress(progress=progressSaveExcel, detail="Saving to Excel file", n=1, shiny=TRUE, print=TRUE)
-    }
-    ######
-
     return(outputlist)
 
   })
+
+  output$downloadResults <- downloadHandler(
+      filename = function() {
+        paste0(input$project_name, gsub(" |:","-",Sys.time()), "-results.xlsx")
+      },
+      content = function(file) {
+        openxlsx::write.xlsx(outputlist()$results, file, colNames = TRUE, rowNames = TRUE)
+      }
+    )
 
   output$contrastL <- renderPrint({
     {
@@ -843,13 +615,7 @@ progressSaveExcel <- NULL
   ###Detail Plot###
   #Drop down menu for plot 2
   plot2DependentVars <- reactive({
-    if(input$save==2 & !is.null(input$load_model$datapath)){
-      RData <- try(loads_MSqRob(file=modelDatapath(), variables=c("fixed","random")), silent=TRUE)
-      if(inherits(RData, 'try-error')){stop("Loading of model file failed. Please provide a valid RDatas model file.")}
-      plot2DependentVars <- as.list(c(RData$fixed, RData$random))
-    } else{
       plot2DependentVars <- as.list(c(input$fixed, input$random))
-    }
     return(plot2DependentVars)
   })
 
@@ -993,88 +759,17 @@ progressSaveExcel <- NULL
   })
 
   ########################################################################################
-  ###Save the volcano and detail plots when the downloadResultPlots button is clicked#####
+  ###Download summarized intensities when download button is clicked#####
   ########################################################################################
-observeEvent(input$downloadProtSum, {
-if (!is.null(protSum()))
-{
-savepath <- getDataPath(saveFolder$folder)
-savepath <- gsub("//","/",file.path(savepath, paste0(input$project_name,"_",gsub(" |:","_",Sys.time()))))
-dir.create(savepath)
-openxlsx::write.xlsx(exprs(protSum()), file = file.path(savepath, paste0(input$project_name,"_","proteinSummaries.xlsx")), colNames = TRUE, rowNames = TRUE)
-}
-})
-
-observeEvent(input$downloadProtSum, {
-  showNotification("Protein summaries are saved", duration = 1.5)
-})
-  ########################################################################################
-  ###Save the volcano and detail plots when the downloadResultPlots button is clicked#####
-  ########################################################################################
-
-  observeEvent(input$downloadResultPlots, {
-
-    savepathFigs <- getDataPath(saveFolder$folder)
-
-    plotnames <- c("volcano","detail")
-
-    for(i in 1:length(plotnames)){
-
-      if(input$result_extension == "svg"){
-
-        grDevices::svg(file.path(savepathFigs,paste0(plotnames[i],".svg")), width=10, height=10,onefile=FALSE) ##onefile=FALSE to prevent the plots that are made previously to appear in the svg
-
-      } else if(input$result_extension == "png"){
-        grDevices::png(file.path(savepathFigs,paste0(plotnames[i],".png")),width = 3.25,
-            height    = 3.25,
-            units     = "in",
-            res       = 2000,
-            pointsize = 5.4
-        )
-      } else if(input$result_extension == "pdf") {
-        grDevices::cairo_pdf(file.path(savepathFigs,paste0(plotnames[i],".pdf")),width=10,height=10,onefile=FALSE) #onefile=FALSE to prevent the plots that are made previously to appear in the PDF
-
-      } else if(input$result_extension == "tiff") {
-        grDevices::tiff(file.path(savepathFigs,paste0(plotnames[i],".tiff")),width = 3.25,
-                        height    = 3.25,
-                        units     = "in",
-                        res       = 2000,
-                        pointsize = 5.4)
-      } else if(input$result_extension == "jpeg") {
-        grDevices::jpeg(file.path(savepathFigs,paste0(plotnames[i],".jpeg")),width = 3.25,
-                        height    = 3.25,
-                        units     = "in",
-                        res       = 2000,
-                        pointsize = 5.4)
-      } else if(input$result_extension == "bmp") {
-        grDevices::bmp(file.path(savepathFigs,paste0(plotnames[i],".bmp")),width = 3.25,
-                        height    = 3.25,
-                        units     = "in",
-                        res       = 2000,
-                        pointsize = 5.4)
-      } else if(input$result_extension == "postscript") {
-        grDevices::postscript(file.path(savepathFigs,paste0(plotnames[i],".ps")),width = 3.25,
-                       height    = 3.25,
-                       pointsize = 5.4)
-      } else if(input$result_extension == "xfig") {
-        grDevices::xfig(file.path(savepathFigs,paste0(plotnames[i],".fig")),width = 3.25,
-                              height    = 3.25,
-                              pointsize = 5.4)
-      }
-
-      if(i==1){makeVolcanoPlot(dataset,estimate,clickInfo,input)
-      } else if(i==2){makeDetailPlot(data,acc_plot2,outputlist,input)}
-
-      dev.off()  # turn the device off
-
+output$downloadProtSum <- downloadHandler(
+    filename = function() {
+      paste0(input$project_name, gsub(" |:","-",Sys.time()), ".xlsx")
+    },
+    content = function(file) {
+      openxlsx::write.xlsx(exprs(protSum()), file, colNames = TRUE, rowNames = TRUE)
     }
+  )
 
-  })
-
-  #Show a notification when the plots are saved
-  observeEvent(input$downloadResultPlots, {
-    showNotification("Result plots saved.", duration = 1.5)
-  })
 
   ##############################################
   #Normalization tab
@@ -1449,84 +1144,6 @@ observeEvent(input$downloadProtSum, {
 
   output$plotMDSProt <- renderPlot({
     makeMDSPlotProt(input,protEset,colorsProt,rangesMDSProt)
-  })
-
-  #Show a notification when the plots are saved
-  observeEvent(input$downloadPreprocessingPlots, {
-    showNotification("Diagnostic plots saved.", duration = 1.5)
-  })
-
-  #Save the preprocessing plots when the downloadPreprocessingPlots button is clicked
-  observeEvent(input$downloadPreprocessingPlots, {
-
-    savepathFigs <- getDataPath(saveFolder$folder)
-
-    plotnames <- c("rawDensity","preprocessedDensity","MDSPlot")
-
-    for(i in 1:length(plotnames)){
-
-    if(input$preprocessing_extension == "svg"){
-
-      grDevices::svg(file.path(savepathFigs,paste0(plotnames[i],".svg")), width=10, height=10) #filenames,i
-
-    } else if(input$preprocessing_extension == "png"){
-      grDevices::png(file.path(savepathFigs,paste0(plotnames[i],".png")),width = 3.25,
-         height    = 3.25,
-         units     = "in",
-         res       = 2000,
-         pointsize = 5.4
-      )
-    }
-    else if(input$preprocessing_extension == "pdf") {
-      grDevices::cairo_pdf(file.path(savepathFigs,paste0(plotnames[i],".pdf")),width=10,height=10,onefile=FALSE) #onefile=FALSE to prevent the plots that are made previously to appear in the PDF
-    } else if(input$preprocessing_extension == "tiff") {
-      grDevices::tiff(file.path(savepathFigs,paste0(plotnames[i],".tiff")),width = 3.25,
-                      height    = 3.25,
-                      units     = "in",
-                      res       = 2000,
-                      pointsize = 5.4)
-    } else if(input$preprocessing_extension == "jpeg") {
-      grDevices::jpeg(file.path(savepathFigs,paste0(plotnames[i],".jpeg")),width = 3.25,
-                      height    = 3.25,
-                      units     = "in",
-                      res       = 2000,
-                      pointsize = 5.4)
-    } else if(input$preprocessing_extension == "bmp") {
-      grDevices::bmp(file.path(savepathFigs,paste0(plotnames[i],".bmp")),width = 3.25,
-                      height    = 3.25,
-                      units     = "in",
-                      res       = 2000,
-                      pointsize = 5.4)
-    } else if(input$preprocessing_extension == "postscript") {
-      grDevices::postscript(file.path(savepathFigs,paste0(plotnames[i],".ps")),width = 3.25,
-                     height    = 3.25,
-                     pointsize = 5.4)
-    } else if(input$preprocessing_extension == "xfig") {
-      grDevices::xfig(file.path(savepathFigs,paste0(plotnames[i],".fig")),width = 3.25,
-                            height    = 3.25,
-                            pointsize = 5.4)
-    }
-
-    if(i==1){makePlotRaw(input,eset,colorsNorm,rangesRaw)
-    } else if(i==2){makePlotNorm1(input,esetN,colorsNorm,rangesNorm)
-    } else if (i==3){makeMDSPlot(input,esetN,colorsNorm,rangesMDS)}
-
-    dev.off()  # turn the device off
-
-  }
-
-  })
-
-  observe({
-
-    #If no save folder specified or the preprocessing plots are not made, do not allow to try to download the preprocessing plots.
-    res <- try(check_save_folder(saveFolder$folder),silent = TRUE)
-
-    if(class(res) == "try-error" | (isTRUE(input$onlysite) && is.null(input$proteingroups))){ #!isTRUE(input$evalnorm) |
-      shinyjs::disable("downloadPreprocessingPlots")
-    } else{
-      shinyjs::enable("downloadPreprocessingPlots")
-    }
   })
 
   #Stop the App when closing the browser or ending the session

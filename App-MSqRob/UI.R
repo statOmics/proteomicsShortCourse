@@ -49,8 +49,8 @@ shinyUI(fluidPage(theme = "MSqRob.css",
   	  textInput("project_name", NULL, value = "project", width = '100%', placeholder = NULL),
   	hidden(helpText(id="tooltip_project_name",
   	       "Give your project a meaningful name.
-  	       This name will be given to your results folder and the files therein.
-  	       A time stamp will be automatically appended to the folder name."))
+  	       This name will be given to your results files.
+  	       A time stamp will be automatically appended to name."))
   	      )
   	  ),
 
@@ -64,17 +64,6 @@ shinyUI(fluidPage(theme = "MSqRob.css",
   	                      "))
   	           )
   	     ),
-
-  	#Folder where everything will be saved
-  	div(class="MSqRob_input_container",
-  	    list(
-  	tags$label("Output location", `for`="outputFolder", class="MSqRob_label"),
-  	tags$button(id="button_outputFolder", tags$sup("[?]"), class="MSqRob_tooltip"),
-  	htmlOutput("outputFolderOut"),
-  	#folderInput(inputId="outputFolder", label="Specify the location where your output will be saved", placeholder = "No folder selected", multiple = FALSE, accept = NULL, width = NULL),
-  	hidden(helpText(id="tooltip_outputFolder","Specify the folder where your output will be saved."))
-  	    )
-  	),
 
   	#Peptides.txt file
   	div(class="MSqRob_input_container",
@@ -121,27 +110,6 @@ shinyUI(fluidPage(theme = "MSqRob.css",
 		#Main panel with number of output and plots
 		mainPanel(width = 5,
 		          h3("Frequently asked questions", class="MSqRob_topheader"),
-		          htmlOutput("folderError"),
-		          div(class="MSqRob_h4_container",
-		          list(
-		          h4("What is an annotation file?"),
-		          tags$button(id="button_newExpAnnText",tags$sup("[show]"), class="MSqRob_tooltip")
-		          )
-		          ),
-              hidden(helpText(id="tooltip_newExpAnnText",
-                "An experimental annotation file contains the description of your experiment.
-                Indeed, each mass spec run corresponds to e.g. a certain treatment, biological repeat, etc.
-                This should be told to MSqRob via an Excel file or a tab delimited file wherein the first column contains all run names
-                and the other columns contain all predictors of interest.
-                Examples of experimental annotation files for the Francisella and CPTAC experiments can be found ",
-                a("here", href="https://github.com/statOmics/MSqRobData/blob/master/inst/extdata/Francisella/label-free_Francisella_annotation.xlsx"),
-                "and",
-                a("here.", href="https://github.com/statOmics/MSqRobData/blob/master/inst/extdata/CPTAC/label-free_CPTAC_annotation.xlsx"),
-                "Click the button to initialize an Excel file with a \"run\" column (works only if peptides.txt is already uploaded!).
-                The annotation file will be saved in the output location.
-                You still need to add other relevant columns (treatments, biological repeats, technical repeat, etc.) manually!")),
-		          actionButton("create_annot", "Create annotation file", class="MSqRob_button_space"),
-		          verbatimTextOutput("newExpAnnText"),
 		          div(class="MSqRob_h4_container",
 		          list(
 		          h4("How do I cite MSqRob?"),
@@ -179,11 +147,6 @@ shinyUI(fluidPage(theme = "MSqRob.css",
 		          ))
 		)
      )
-		# ,
-		# #Main panel with number of output and plots
-		# mainPanel(width = 5,
-		#           htmlOutput("folderError")
-		#           )
     )
 
     ############################
@@ -362,19 +325,6 @@ shinyUI(fluidPage(theme = "MSqRob.css",
         strong('Number of peptides after preprocessing:'),textOutput('npeptidesNormalized',container = span),div(),
         htmlOutput("selectColPlotNorm1"),
 
-        div(class="MSqRob_input_container",
-            list(
-              tags$label("File type", `for`="preprocessing_extension", class="MSqRob_label"),
-              tags$button(id="button_preprocessing_extension", tags$sup("[?]"), class="MSqRob_tooltip"),
-              selectInput("preprocessing_extension", NULL, c("png", "pdf", "svg", "tiff", "jpeg", "bmp", "postscript", "xfig"), width = '100%'),
-              hidden(helpText(id="tooltip_preprocessing_extension",
-                              "When you click the button, you can save the diagnostic plots.
-                              Here you can select the file extension that you want to use when saving the images.
-                              "))
-              )
-            ),
-
-        actionButton(inputId="downloadPreprocessingPlots", label="Save the diagnostic plots"),
 
         div(class="MSqRob_h4_container",
             list(
@@ -468,7 +418,9 @@ sidebarLayout(
  hidden(helpText(id="tooltip_summarisation",
                  "Select the type of summarization from the dropdown menu.
                  ")),
-                 actionButton(inputId="downloadProtSum", label="Save protein intensities")
+              #    downloadButton("downloadProtSum", "Download protein intensities")
+              htmlOutput("downloadButtonProtSum")
+
      )
  )
  ),
@@ -547,37 +499,17 @@ sidebarLayout(
 	#checkboxInput("borrowRandom", "Borrow information across random effects", value = FALSE, width = NULL),
   div(class="MSqRob_input_container",
       list(
-        tags$label("Save/load options:", `for`="save", class="MSqRob_label"),
-        tags$button(id="button_save", tags$sup("[?]"), class="MSqRob_tooltip"),
+        tags$label(" ", `for`="save", class="MSqRob_label"),
   radioButtons("save", label=NULL,
-                   c("Save the models" = 1,  #Conditioneel stukje toevoegen bij downloadHandler dat hij ook model.RData downloadt
-                     "Don't save the models" = 3
-                      )),
-  hidden(helpText(id="tooltip_save","
-                  Select one of three options:
-                  (1) Save the models: the data and the fitted models will be saved as a \".rDatas\" file which allows the user to redo the analysis without having to redo the preprocessing and model fitting.
-                  (2) Don't save the models: No \".rDatas\" file will be saved (but a results.xlsx file will be produced nonetheless).
-                  "))
+                   c(" " = 1
+                      ))
       )
   ),
 
-	#load saved model
-  div(class="MSqRob_input_container",
-      list(
-        conditionalPanel(
-        	condition = "input.save == 2",
-        	tags$label("Model file", `for`="load_model", class="MSqRob_label"),
-        	tags$button(id="button_load_model", tags$sup("[?]"), class="MSqRob_tooltip"),
-        	fileInput(inputId="load_model", label=NULL, multiple = FALSE, accept = NULL, width = NULL),
-        	hidden(helpText(id="tooltip_load_model","Specify the location of your saved model file."))
-      	)
-        )
-  ),
 
 	#Type of analysis
   div(class="MSqRob_input_container",
       list(
-        conditionalPanel(
         tags$label("Minimal fold change", `for`="lfc", class="MSqRob_label"),
         tags$button(id="button_lfc", tags$sup("[?]"), class="MSqRob_tooltip"),
         numericInput("lfc", label = NULL, value = 0, min = 0, max = NA, step = 0.1, width = NULL),
@@ -589,7 +521,6 @@ sidebarLayout(
                         When you change the cut-off, you should redo the analysis.
                         This type of analysis cannot be performed in combination with an ANOVA.
                         "))
-      )
         )
         ),
 
@@ -621,9 +552,10 @@ sidebarLayout(
         #Specification of contrasts
       	htmlOutput("selectLevels"),
 	#Run button
-	actionButton(inputId="go", label="Start the analysis!", class="MSqRob_button_space") #,
+	actionButton(inputId="go", label="Start the analysis!", class="MSqRob_button_space") ,
 	#Download button
-      	# htmlOutput("download_button")
+#  downloadButton("downloadResults", "Download results")
+htmlOutput("downloadButtonResults")
     ),
 
     #Main panel with results and plots
@@ -635,19 +567,6 @@ sidebarLayout(
 	htmlOutput("plot_contrast"),
 	verbatimTextOutput("contrastL"),
 
-	div(class="MSqRob_input_container",
-	    list(
-	      tags$label("File type", `for`="result_extension", class="MSqRob_label"),
-	      tags$button(id="button_result_extension", tags$sup("[?]"), class="MSqRob_tooltip"),
-	      selectInput("result_extension", NULL, c("png", "pdf", "svg", "tiff", "jpeg", "bmp", "postscript", "xfig"), width = '100%'),
-	      hidden(helpText(id="tooltip_result_extension",
-	                      "When you click the button, you can save the volcano and (if present) detail plots.
-	                      Here you can select the file extension that you want to use when saving the images.
-	                      "))
-	      )
-	      ),
-
-	actionButton(inputId="downloadResultPlots", label="Save the result plots"),
 
 	#Volcano plot
        	fluidRow(
