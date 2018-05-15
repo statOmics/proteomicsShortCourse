@@ -878,6 +878,7 @@ output$downloadProtSum <- downloadHandler(
   {
   protSum <- combineFeatures(pepsN(),fun=input$summarisation, groupBy = fData(pepsN())$Proteins , na.rm=TRUE,
                             maxiter = 50L, cv = FALSE)
+  pData(protSum) <- pData(pepsN())
   return(protSum)
   }
   })
