@@ -559,16 +559,10 @@ observe({
       processedvals = isolate(processedvals())
       useful_properties = isolate(useful_properties())
 
-      cat("Done!!!\n")
-      saveRDS(protSum(),file="/Users/lclement/Downloads/protSum.rds")
-
       intensitiesHlp <- isolate(protSum())
       if (ncol(fData(intensitiesHlp))==1) fData(intensitiesHlp)$tmp=""
       Biobase::fData(intensitiesHlp) <- droplevels(Biobase::fData(intensitiesHlp))
       proteins <- MSnSet2protdata(intensitiesHlp, accession=processedvals[["proteins"]], annotations=processedvals[["annotations"]], printProgress=TRUE, shiny=TRUE, message="Converting data...")
-      cat("Done Prot Object!!!\n")
-      saveRDS(proteins,file="/Users/lclement/Downloads/proteinsHlp.rds")
-
 
       par_squeeze <- NULL
 
@@ -576,8 +570,6 @@ observe({
       if(isTRUE(input$borrowFixed)){par_squeeze <- c(par_squeeze,"ridgeGroup.1")}
 
       models <- fit.model(protdata=proteins, response="quant_value", fixed=fixed, random=random, par_squeeze=par_squeeze, printProgress=TRUE, shiny=TRUE, message_fitting="Fitting models...", message_thetas="Extracting variances...", message_squeeze="Squeezing variances...", message_update="Updating models...")
-      cat("Done!!!\n")
-      saveRDS(models,file="modelsHlp.rds")
 
       #We save the squeezed models!
 
