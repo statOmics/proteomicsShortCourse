@@ -12,7 +12,7 @@ We show the first 6 rows of data.
 
 ```{r}
 library(mzID)
-dataFlat <- flatten(mzID("~/data/Identification/peptideShakerTutorial.mzid"))
+dataFlat <- flatten(mzID("~/data/identification/peptideShakerTutorial.mzid"))
 head(dataFlat)
 ```
 
