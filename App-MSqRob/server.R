@@ -391,8 +391,8 @@ observe({
 
       if(isTRUE(input$borrowRandom)){par_squeeze <- c(par_squeeze, random)}
       if(isTRUE(input$borrowFixed)){par_squeeze <- c(par_squeeze,"ridgeGroup.1")}
-
-      models <- fit.model(protdata=proteins, response="quant_value", fixed=fixed, random=random, par_squeeze=par_squeeze, printProgress=TRUE, shiny=TRUE, message_fitting="Fitting models...", message_thetas="Extracting variances...", message_squeeze="Squeezing variances...", message_update="Updating models...")
+      if (input$save==0) shrinkage.fixed <- c(0,rep(0,length(fixed))) else shrinkage.fixed=NULL
+      models <- fit.model(protdata=proteins, response="quant_value", fixed=fixed, random=random, par_squeeze=par_squeeze, printProgress=TRUE, shiny=TRUE, message_fitting="Fitting models...", message_thetas="Extracting variances...", message_squeeze="Squeezing variances...", message_update="Updating models...",shrinkage.fixed=shrinkage.fixed)
 
       #We save the squeezed models!
 
@@ -858,7 +858,7 @@ output$downloadProtSum <- downloadHandler(
     return(peps)
   })
 
-  pepsN <- reactive({
+  pepsN <- eventReactive(input$goNorm,{
     if(!is.null(peps()) && !is.null(input$proteins)){ #!is.null(input$proteins) is there to prevent this from double running, e.g. with moFF! #& isTRUE(input$evalnorm)
       #If remove only identified by site==TRUE and fileProteinGroups is NULL, this also throws an error
 
@@ -873,7 +873,7 @@ output$downloadProtSum <- downloadHandler(
     return(pepsN)
   })
 
-  protSum <- reactive({
+  protSum <-  eventReactive(input$goSum,{
   if (input$summarisation=="none") return(pepsN()) else
   {
   protSum <- combineFeatures(pepsN(),fun=input$summarisation, groupBy = fData(pepsN())$Proteins , na.rm=TRUE,

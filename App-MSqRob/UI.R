@@ -304,7 +304,9 @@ shinyUI(fluidPage(theme = "MSqRob.css",
                         Therefore, the default normalisation for Progenesis data is set to \"none\".
                         "))
             )
-        )
+        ),
+        actionButton(inputId="goNorm", label="Start Normalization!", class="MSqRob_button_space")
+
 	),
 
 
@@ -419,6 +421,7 @@ sidebarLayout(
                  "Select the type of summarization from the dropdown menu.
                  ")),
               #    downloadButton("downloadProtSum", "Download protein intensities")
+              actionButton(inputId="goSum", label="Start Summarisation!", class="MSqRob_button_space") ,
               htmlOutput("downloadButtonProtSum")
 
      )
@@ -499,9 +502,9 @@ sidebarLayout(
 	#checkboxInput("borrowRandom", "Borrow information across random effects", value = FALSE, width = NULL),
   div(class="MSqRob_input_container",
       list(
-        tags$label(" ", `for`="save", class="MSqRob_label"),
+        tags$label("Ridge regression for fixed effects?", `for`="save", class="MSqRob_label"),
   radioButtons("save", label=NULL,
-                   c(" " = 1
+                   c("Yes" = 1,"No"=0
                       ))
       )
   ),
