@@ -99,7 +99,7 @@ processInput <- function(input){
 
     if(isTRUE(input$onlysite) && is.null(input$proteingroups$datapath)){stop("Please provide a protein groups file or untick the box \"Remove proteins that are only identified by modified peptides\".")}
 
-    if(input$save==2 && is.null(input$loadmodel$datapath)){stop("Please provide a saved RData file or don't choose the option \"Upload an existing model\" under \"Save/load options\".")}
+#    if(input$save==2 && is.null(input$loadmodel$datapath)){stop("Please provide a saved RData file or don't choose the option \"Upload an existing model\" under \"Save/load options\".")}
 
     type_annot <- NULL
 

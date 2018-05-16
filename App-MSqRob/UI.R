@@ -108,46 +108,70 @@ shinyUI(fluidPage(theme = "MSqRob.css",
   	),
 
 		#Main panel with number of output and plots
-		mainPanel(width = 5,
-		          h3("Frequently asked questions", class="MSqRob_topheader"),
-		          div(class="MSqRob_h4_container",
-		          list(
-		          h4("How do I cite MSqRob?"),
-		          tags$button(id="button_cite",tags$sup("[show]"), class="MSqRob_tooltip")
-		          )
-		          ),
-		          hidden(helpText(id="tooltip_cite",
-		          "MSqRob is free for you to use and completely open source.
-		          When making use of MSqRob, we would appreciate it if you could cite our two published articles.",
-		          br(),
-		          span("(1) The MSqRob algorithm: ", class="bold"),
-		          br(),
-		          "
-		          Goeminne, L. J. E., Gevaert, K., and Clement, L. (2016) Peptide-level Robust Ridge Regression Improves Estimation, Sensitivity,
-		          and Specificity in Data-dependent Quantitative Label-free Shotgun Proteomics. Molecular & Cellular Proteomics 15(2), pp 657-668.",
-		          br(),
-		          span("(2) The MSqRob GUI tutorial article:", class="bold"),
-		          br(),
-		          "
-		          Goeminne, L. J. E., Gevaert, K. and Clement, L. (2017).
-		          Experimental design and data-analysis in label-free quantitative LC/MS proteomics:
-    		      A tutorial with MSqRob. Journal of Proteomics (in press).")),
-		          div(class="MSqRob_h4_container",
-		          list(
-		          h4("My question is not in this list!"),
-		          tags$button(id="button_notinlist",tags$sup("[show]"), class="MSqRob_tooltip")
-		          )
-		          ),
-		          hidden(helpText(id="tooltip_notinlist",
-		          "We are always ready to help you with any kind of issue that you might encounter!
-		          If for some reason, using MSqRob is hard or counter-intuitive to you,
-		          or you encounter some weird and unexpected results,
-		          please do not hesitate to contact us at", a("ludger.goeminne@vib-ugent.be.", href="mailto:ludger.goeminne@vib-ugent.be"),
-		          strong("User feedback is very important to us in order to improve MSqRob's user-friendliness.")
-		          ))
-		)
-     )
+    mainPanel(width = 5,
+            h3("Frequently asked questions", class="MSqRob_topheader"),
+            htmlOutput("folderError"),
+            div(class="MSqRob_h4_container",
+            list(
+            h4("What is an annotation file?"),
+            tags$button(id="button_newExpAnnText",tags$sup("[show]"), class="MSqRob_tooltip"),
+            actionButton(inputId="goAnnotation", label="Generate Annotation File!", class="MSqRob_button_space"),
+            htmlOutput("downloadButtonDownloadAnnot"),
+            hidden(helpText(id="tooltip_newExpAnnText",
+              "An experimental annotation file contains the description of your experiment.
+              Indeed, each mass spec run corresponds to e.g. a certain treatment, biological repeat, etc.
+              This should be told to MSqRob via an Excel file or a tab delimited file wherein the first column contains all run names
+              and the other columns contain all predictors of interest.
+              Examples of experimental annotation files for the Francisella and CPTAC experiments can be found ",
+              a("here", href="https://github.com/statOmics/MSqRobData/blob/master/inst/extdata/Francisella/label-free_Francisella_annotation.xlsx"),
+              "and",
+              a("here.", href="https://github.com/statOmics/MSqRobData/blob/master/inst/extdata/CPTAC/label-free_CPTAC_annotation.xlsx"),
+              "Click the button to initialize an Excel file with a \"run\" column (works only if peptides.txt is already uploaded!).
+              The annotation file will be saved in the output location.
+              You still need to add other relevant columns (treatments, biological repeats, technical repeat, etc.) manually!"))
+            )
+            ),
+
+            div(class="MSqRob_h4_container",
+            list(
+            h4("How do I cite MSqRob?"),
+            tags$button(id="button_cite",tags$sup("[show]"), class="MSqRob_tooltip")
+            )
+            ),
+            hidden(helpText(id="tooltip_cite",
+            "MSqRob is free for you to use and completely open source.
+            When making use of MSqRob, we would appreciate it if you could cite our two published articles.",
+            br(),
+            span("(1) The MSqRob algorithm: ", class="bold"),
+            br(),
+            "
+            Goeminne, L. J. E., Gevaert, K., and Clement, L. (2016) Peptide-level Robust Ridge Regression Improves Estimation, Sensitivity,
+            and Specificity in Data-dependent Quantitative Label-free Shotgun Proteomics. Molecular & Cellular Proteomics 15(2), pp 657-668.",
+            br(),
+            span("(2) The MSqRob GUI tutorial article:", class="bold"),
+            br(),
+            "
+            Goeminne, L. J. E., Gevaert, K. and Clement, L. (2017).
+            Experimental design and data-analysis in label-free quantitative LC/MS proteomics:
+            A tutorial with MSqRob. Journal of Proteomics (in press).")),
+            div(class="MSqRob_h4_container",
+            list(
+            h4("My question is not in this list!"),
+            tags$button(id="button_notinlist",tags$sup("[show]"), class="MSqRob_tooltip")
+            )
+            ),
+            hidden(helpText(id="tooltip_notinlist",
+            "We are always ready to help you with any kind of issue that you might encounter!
+            If for some reason, using MSqRob is hard or counter-intuitive to you,
+            or you encounter some weird and unexpected results,
+            please do not hesitate to contact us at", a("ludger.goeminne@vib-ugent.be.", href="mailto:ludger.goeminne@vib-ugent.be"),
+            strong("User feedback is very important to us in order to improve MSqRob's user-friendliness.")
+            ))
+  )
+   )
     )
+
+
 
     ############################
     #Preprocessing tab
@@ -184,7 +208,16 @@ shinyUI(fluidPage(theme = "MSqRob.css",
                               "))
               )
               ),
-
+              div(class="MSqRob_input_container",
+              list(
+              tags$label("Variable indicating peptide species", `for`="Sequence", class="MSqRob_label"),
+              tags$button(id="button_Sequence", tags$sup("[?]"), class="MSqRob_tooltip"),
+              htmlOutput("Sequence"),
+              hidden(helpText(id="tooltip_Sequence","
+                              Select the variable that identifies the peptide species.
+                              In most cases this variable is called peptide, sequence or Sequence. "))
+              )
+              ),
         h4("Transformation", class=c("MSqRob_sidebar")),
 
         div(class="MSqRob_input_container",
@@ -423,7 +456,6 @@ sidebarLayout(
               #    downloadButton("downloadProtSum", "Download protein intensities")
               actionButton(inputId="goSum", label="Start Summarisation!", class="MSqRob_button_space") ,
               htmlOutput("downloadButtonProtSum")
-
      )
  )
  ),
@@ -502,11 +534,18 @@ sidebarLayout(
 	#checkboxInput("borrowRandom", "Borrow information across random effects", value = FALSE, width = NULL),
   div(class="MSqRob_input_container",
       list(
-        tags$label("Ridge regression for fixed effects?", `for`="save", class="MSqRob_label"),
-  radioButtons("save", label=NULL,
+        tags$label("Ridge regression for fixed effects?", `for`="doRidge", class="MSqRob_label"),
+        tags$button(id="button_doRidge", tags$sup("[?]"), class="MSqRob_tooltip"),
+  radioButtons("doRidge", label=NULL,
                    c("Yes" = 1,"No"=0
-                      ))
-      )
+                      )),
+  hidden(helpText(id="tooltip_doRidge","
+                  When \"Yes\" is selected the fixed effects are estimated using ridge regression. This shrinks the estimates with low evidence for differential abundance towards zero and improves the performance.
+                  But, the method is computationally much more demanding.
+                  We therefore suggest to switch ridge regression off \"No\" until you want to perform the final analysis. "
+
+                          )
+      ))
   ),
 
 

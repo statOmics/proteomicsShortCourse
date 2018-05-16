@@ -31,6 +31,30 @@ shinyServer(function(input, output, session) {
   })
 
 
+
+
+
+anotationFileToDownload <- eventReactive(input$goAnnotation, {
+cat("ok\n")
+colInt <- MSnbase::grepEcols(peptidesDatapath(), pattern = "Intensity.", split = "\t")
+runs <- read.table(peptidesDatapath(), header = FALSE, nrow = 1, sep = "\t",
+    quote = "", stringsAsFactors = FALSE, comment.char = "")[colInt]
+runs <- make.names(runs, unique = TRUE)
+runs <- gsub("Intensity.", "", runs)
+data.frame(run = runs)
+})
+  output$DownloadAnnot <- downloadHandler(
+      filename = function() {
+        paste0(input$project_name, gsub(" |:","-",Sys.time()),"_experimental_annotation.xlsx")
+      },
+      content = function(file) {
+        openxlsx::write.xlsx(anotationFileToDownload(), file, colNames = TRUE)
+      }
+    )
+
+
+
+
   ########################################################
   #Clear datapaths of backslashes (Needed on Windows only)
   ########################################################
@@ -143,7 +167,11 @@ shinyServer(function(input, output, session) {
   ###########################################
   nmsFixedOptions <- reactive({names(exp_annotation())})
 
-  ####select Fixed effects, random effects, Proteins and store options ####
+  ####select Fixed effects, random effects, Proteins and store options ###
+  output$Sequence <- renderUI({
+  selectInput("Sequence",label=NULL, choices= filterOptions())
+  })
+
   output$selectFixed <- renderUI({
     selectInput("fixed", label=NULL, choices=nmsFixedOptions(), multiple=TRUE )
     })
@@ -241,7 +269,10 @@ shinyServer(function(input, output, session) {
      if(!is.null(protSum())){
      downloadButton("downloadProtSum", "Download protein intensities")}
    })
-
+   output$downloadButtonDownloadAnnot<- renderUI({
+     if(!is.null(anotationFileToDownload())) {
+     downloadButton("DownloadAnnot", "Create annotation file")}
+   })
   ###Function invoked when output button is pushed###
   #Here comes what happens when we activate the go button, here are the real calculations
   #Maybe with progress bar...
@@ -296,6 +327,10 @@ observe({
 
   shinyjs::onclick("button_proteins",
                    shinyjs::toggle(id = "tooltip_proteins", anim = TRUE))
+shinyjs::onclick("button_doRidge",
+                  shinyjs::toggle(id = "tooltip_doRidge", anim = TRUE))
+  shinyjs::onclick("button_Sequence",
+                    shinyjs::toggle(id = "tooltip_Sequence", anim = TRUE))
   shinyjs::onclick("button_annotations",
                    shinyjs::toggle(id = "tooltip_annotations", anim = TRUE))
   shinyjs::onclick("button_fixed",
@@ -338,6 +373,7 @@ observe({
     if(is.null(peps)){useful_properties <- NULL
     } else{
       useful_properties <- unique(c(processedvals()[["proteins"]],processedvals()[["annotations"]],input$fixed,input$random)[c(processedvals()[["proteins"]],processedvals()[["annotations"]],input$fixed,input$random) %in% colnames(Biobase::fData(peps()))])
+      if (!(input$Sequence %in% useful_properties)) useful_properties<-c(useful_properties,input$Sequence)
     }
     return(useful_properties)
     })
@@ -386,12 +422,11 @@ observe({
       if (ncol(fData(intensitiesHlp))==1) fData(intensitiesHlp)$tmp=""
       Biobase::fData(intensitiesHlp) <- droplevels(Biobase::fData(intensitiesHlp))
       proteins <- MSnSet2protdata(intensitiesHlp, accession=processedvals[["proteins"]], annotations=processedvals[["annotations"]], printProgress=TRUE, shiny=TRUE, message="Converting data...")
-
       par_squeeze <- NULL
 
       if(isTRUE(input$borrowRandom)){par_squeeze <- c(par_squeeze, random)}
       if(isTRUE(input$borrowFixed)){par_squeeze <- c(par_squeeze,"ridgeGroup.1")}
-      if (input$save==0) shrinkage.fixed <- c(0,rep(0,length(fixed))) else shrinkage.fixed=NULL
+      if (input$doRidge==0) shrinkage.fixed <- c(0,rep(0,length(fixed))) else shrinkage.fixed=NULL
       models <- fit.model(protdata=proteins, response="quant_value", fixed=fixed, random=random, par_squeeze=par_squeeze, printProgress=TRUE, shiny=TRUE, message_fitting="Fitting models...", message_thetas="Extracting variances...", message_squeeze="Squeezing variances...", message_update="Updating models...",shrinkage.fixed=shrinkage.fixed)
 
       #We save the squeezed models!
@@ -763,7 +798,7 @@ observe({
   ########################################################################################
 output$downloadProtSum <- downloadHandler(
     filename = function() {
-      paste0(input$project_name, gsub(" |:","-",Sys.time()), ".xlsx")
+      paste0(input$project_name, gsub(" |:","-",Sys.time()), "_ProteinSummaries.xlsx")
     },
     content = function(file) {
       openxlsx::write.xlsx(exprs(protSum()), file, colNames = TRUE, rowNames = TRUE)
@@ -873,6 +908,9 @@ output$downloadProtSum <- downloadHandler(
     return(pepsN)
   })
 
+brolTest <- eventReactive(input$goSum,{
+return(3)
+})
   protSum <-  eventReactive(input$goSum,{
   if (input$summarisation=="none") return(pepsN()) else
   {
