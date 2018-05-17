@@ -3,11 +3,17 @@ library(markdown)
 library(dplyr)
 library(ggplot2)
 library(mzID)
+library(shinyjs)
+source("helper.R") # Load all the code needed to show feedback on a button click
 
-serverEvalDecoys = function(input, output, session) {
+shinyServer(function(input, output, session) {
 #######################
   ## read data from given path
-  dataFlat <- reactive({flatten(mzID(req(input$file1$datapath)))})
+  dataFlat <- eventReactive(input$processFileBtn,{
+  withBusyIndicatorServer("processFileBtn", {
+  flatten(mzID(req(input$file1$datapath)))
+  })
+  })
   output$ColumnSelector <- renderUI({
 	  tagList(
     selectInput("decoys","select the decoy column", choices = colnames(dataFlat())),
@@ -22,8 +28,11 @@ serverEvalDecoys = function(input, output, session) {
       print(head(data))
       data$score<-as.double(data$score)
       if (input$log) data$score<--log10(data$score+1e-100)
+      data <- data %>% arrange(desc(score)) %>% mutate(fdr=cumsum(decoy)/cumsum(!decoy))
+      data$fdr[data$decoy] <- NA
       data
   })
+
   ## or read example data
   #exampledata = reactive({
   #  req(input$action)
@@ -42,14 +51,25 @@ serverEvalDecoys = function(input, output, session) {
 #######################
   output$histPlot <- renderPlot({
 	binwidth <- diff(range(data()$score,na.rm=TRUE))/input$nBreaks
+  nPSMsig <- sum(data()$fdr<=alpha,na.rm=TRUE)
+  scoreThresh <- min(data()$score[data()$fdr<=alpha],na.rm=TRUE)
 	print(binwidth)
-        ggplot(data(), aes(score, fill = decoy, col=I("black")))+ geom_histogram(alpha = 0.5, binwidth=binwidth, position = 'identity') +  labs(x = 'Score', y = 'Counts' ,title = 'Histogram of targets and decoys') +
+    if (nPSMsig>0){
+    return(ggplot(data(), aes(score, fill = decoy, col=I("black")))+ geom_histogram(alpha = 0.5, binwidth=binwidth, position = 'identity') +  labs(x = 'Score', y = 'Counts' ,title = paste0('Histogram of targets and decoys\n',nPSMsig,' PSMs significant at ',alpha*100,'% FDR level')) +
+    geom_vline(xintercept=scoreThresh) +
     theme_bw() +
     theme(
       plot.title = element_text(size = rel(1.5)),
       axis.title = element_text(size = rel(1.2)),
       axis.text = element_text(size = rel(1.2)),
-      axis.title.y = element_text(angle = 0))
+      axis.title.y = element_text(angle = 0)))
+      } else return(ggplot(data(), aes(score, fill = decoy, col=I("black")))+ geom_histogram(alpha = 0.5, binwidth=binwidth, position = 'identity') +  labs(x = 'Score', y = 'Counts' ,title = paste0('Histogram of targets and decoys\n',nPSMsig,' PSMs significant at ',alpha*100,'% FDR level')) +
+      theme_bw() +
+      theme(
+        plot.title = element_text(size = rel(1.5)),
+        axis.title = element_text(size = rel(1.2)),
+        axis.text = element_text(size = rel(1.2)),
+        axis.title.y = element_text(angle = 0)))
   })
   output$ppPlot <- renderPlot({
 	if (class(data()$decoy)=="logical"&class(data()$score)=="numeric"){
@@ -75,26 +95,4 @@ serverEvalDecoys = function(input, output, session) {
   })
 
 }
-
-
-######################################################################################
-uiEvalDecoys = function() fluidPage(
-           sidebarLayout(
-             sidebarPanel(width = 4,
-                          HTML(markdownToHTML(text =
-'
-Import mzid file and assess decoy quality.
-'
-                          )), hr(),
-                          fileInput ('file1',
-                                     'Choose mzid File',
-                                     accept = c('.mzid')
-                          ),
-                          checkboxInput("log", '-log10 transform score?', TRUE),
- 			  numericInput("nBreaks", "# histogram bins:", 50, min = 1, max = 200),
-                          HTML(markdownToHTML(text =
-'')),
-        uiOutput("ColumnSelector")
-),
-mainPanel(width = 8,  plotOutput('histPlot'),plotOutput('ppPlot'))
-           ))
+)

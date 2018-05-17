@@ -454,7 +454,7 @@ sidebarLayout(
                  "Select the type of summarization from the dropdown menu.
                  ")),
               #    downloadButton("downloadProtSum", "Download protein intensities")
-              actionButton(inputId="goSum", label="Start Summarisation!", class="MSqRob_button_space") ,
+              withBusyIndicatorUI(actionButton(inputId="goSum", label="Start Summarisation!", class="MSqRob_button_space")) ,
               htmlOutput("downloadButtonProtSum")
      )
  )

@@ -9,6 +9,7 @@ library(grDevices)
 library(limma)
 library(graphics)
 source("utilities.R")
+source("helper.R")
 
 #Max file size: 500 Mb
 options(shiny.maxRequestSize=500*1024^2)
@@ -908,10 +909,8 @@ output$downloadProtSum <- downloadHandler(
     return(pepsN)
   })
 
-brolTest <- eventReactive(input$goSum,{
-return(3)
-})
   protSum <-  eventReactive(input$goSum,{
+  withBusyIndicatorServer("goSum", {
   if (input$summarisation=="none") return(pepsN()) else
   {
   protSum <- combineFeatures(pepsN(),fun=input$summarisation, groupBy = fData(pepsN())$Proteins , na.rm=TRUE,
@@ -919,6 +918,7 @@ return(3)
   pData(protSum) <- pData(pepsN())
   return(protSum)
   }
+  })
   })
 
   esetN <- reactive({
