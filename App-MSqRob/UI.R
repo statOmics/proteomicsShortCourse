@@ -3,6 +3,8 @@ library(DT)
 library(shinyjs)
 library(shinythemes)
 source("utilities.R")
+source("helper.R")
+
 
 #runApp("pathToApp/App-MsqRob-devel")
 
