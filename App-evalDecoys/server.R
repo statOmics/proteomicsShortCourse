@@ -25,45 +25,29 @@ shinyServer(function(input, output, session) {
       data <- dataFlat()[,c(input$decoys,input$score)]
       data <- na.exclude(data)
       names(data)<-c("decoy","score")
-      print(head(data))
       data$score<-as.double(data$score)
       if (input$log) data$score<--log10(data$score+1e-100)
       data <- data %>% arrange(desc(score)) %>% mutate(fdr=cumsum(decoy)/cumsum(!decoy))
       data$fdr[data$decoy] <- NA
       data
   })
-
-  ## or read example data
-  #exampledata = reactive({
-  #  req(input$action)
-  #  data.frame(x = rnorm(1000,1,2))
-  #})
-
-  #data_process = reactive({
-  #  dt = exampledata()
-  #  if (input$scale) {
-  #    dt$x = scale(dt$x)
-  #  }
-  #  dt
-  #})
-
-  ## logic plot
+####################
+  ##plots
 #######################
   output$histPlot <- renderPlot({
 	binwidth <- diff(range(data()$score,na.rm=TRUE))/input$nBreaks
-  nPSMsig <- sum(data()$fdr<=alpha,na.rm=TRUE)
-  scoreThresh <- min(data()$score[data()$fdr<=alpha],na.rm=TRUE)
-	print(binwidth)
+  nPSMsig <- sum(data()$fdr<=input$alpha,na.rm=TRUE)
+  scoreThresh <- min(data()$score[data()$fdr<=input$alpha],na.rm=TRUE)
     if (nPSMsig>0){
-    return(ggplot(data(), aes(score, fill = decoy, col=I("black")))+ geom_histogram(alpha = 0.5, binwidth=binwidth, position = 'identity') +  labs(x = 'Score', y = 'Counts' ,title = paste0('Histogram of targets and decoys\n',nPSMsig,' PSMs significant at ',alpha*100,'% FDR level')) +
-    geom_vline(xintercept=scoreThresh) +
+    return(ggplot(data(), aes(score, fill = decoy, col=I("black")))+ geom_histogram(alpha = 0.5, binwidth=binwidth, position = 'identity') +  labs(x = 'Score', y = 'Counts' ,title = paste0('Histogram of targets and decoys\n',nPSMsig,' PSMs significant at ',input$alpha*100,'% FDR level')) +
+    geom_vline(xintercept=scoreThresh,colour="red", size=1) +
     theme_bw() +
     theme(
       plot.title = element_text(size = rel(1.5)),
       axis.title = element_text(size = rel(1.2)),
       axis.text = element_text(size = rel(1.2)),
       axis.title.y = element_text(angle = 0)))
-      } else return(ggplot(data(), aes(score, fill = decoy, col=I("black")))+ geom_histogram(alpha = 0.5, binwidth=binwidth, position = 'identity') +  labs(x = 'Score', y = 'Counts' ,title = paste0('Histogram of targets and decoys\n',nPSMsig,' PSMs significant at ',alpha*100,'% FDR level')) +
+      } else return(ggplot(data(), aes(score, fill = decoy, col=I("black")))+ geom_histogram(alpha = 0.5, binwidth=binwidth, position = 'identity') +  labs(x = 'Score', y = 'Counts' ,title = paste0('Histogram of targets and decoys\n',nPSMsig,' PSMs significant at ',input$alpha*100,'% FDR level')) +
       theme_bw() +
       theme(
         plot.title = element_text(size = rel(1.5)),

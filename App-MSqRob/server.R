@@ -272,7 +272,7 @@ data.frame(run = runs)
    })
    output$downloadButtonDownloadAnnot<- renderUI({
      if(!is.null(anotationFileToDownload())) {
-     downloadButton("DownloadAnnot", "Create annotation file")}
+     downloadButton("DownloadAnnot", "Download Annotation File")}
    })
   ###Function invoked when output button is pushed###
   #Here comes what happens when we activate the go button, here are the real calculations
