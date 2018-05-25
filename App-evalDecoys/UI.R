@@ -1,3 +1,10 @@
+library(shiny)
+library(markdown)
+library(dplyr)
+library(ggplot2)
+library(mzID)
+library(shinyjs)
+source("helper.R")
 
 shinyUI(fluidPage(
   useShinyjs(),
