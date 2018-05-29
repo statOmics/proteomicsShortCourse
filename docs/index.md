@@ -20,14 +20,21 @@ Short course on statistical data analysis for proteomics with R shiny apps
 Once inside Jupyter Notebook, RStudio Server should be an option under the menu
 "New":
 
-![](img/rstudio-session.jpg)
+![](./pages/figs/rstudio-session.jpg)
 
 ## Target Audience
 This course is oriented towards biologists and bioinformaticians with at least an intermediate level of experience working with omics data. The course will be of particular interest to researchers investigating differential analysis for quantitative proteomics.
 
 ## Detailed Program
+
 ### 1. Identification
 #### [Introductory slides to false discovery rate and the target decoy approach](assets/1_Identification_Evaluation_Target_Decoy_Approach.pdf)
 
 
 #### Practical 1: [Evaluating target decoy quality](pages/Identification.md)
+
+### 2. Statistical data analysis of label free quantitative proteomics experiments with simple designs
+#### [Statistical data analysis with MSqRob for simple designs] (assets/1_Identification_Evaluation_Target_Decoy_Approach.pdf)
+
+
+#### Practical 2: [Statistical data analysis with MSqRob for simple designs](pages/sdaMsqrobSimple.md)
