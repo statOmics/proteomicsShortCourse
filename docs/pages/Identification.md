@@ -20,12 +20,12 @@ $$ f(x)=\pi_0 f_0 (x)+(1-\pi_0 ) f_1 (x), $$
 with \\( f(x) \\) the target PSM score distribution, \\( f_0(x) \\) the mixture component corresponding to incorrect PSMs, \\( f_0(x) \\)  the mixture component corresponding to the correct PSMs and \\( \pi_0 \\) the fraction of incorrect PSMs.
 Based on the mixture distribution we can calculate the posterior probability that a PSM with score x is a bad match:
 
-$$ P[\text{Bad hit} | \text{score }  x]=\frac{\pi_0 f_0 (x)}{f(x)}, $$
+$$ P[Bad hit | score \quad x]=\frac{\pi_0 f_0 (x)}{f(x)}, $$
 
 which is also referred to as the posterior error probability (PEP) in mass spectrometry based proteomics.
 Based on the mixture model, we can also calculate the posterior probability that a random PSM in the set of all PSMs with scores above a score threshold t is a bad hit (see e.g. Figure 1):
 
-$$ P[\text{Bad hit} | \text{score }x>t]=\pi_0 \frac{1-F_0 (t)}{1-F(t)}, $$
+$$ P[Bad hit | score \quad x>t]=\pi_0 \frac{1-F_0 (t)}{1-F(t)}, $$
 
 With \\( F(t) \\) and \\( F_0(t) \\) the cumulative distribution functions of all target PSMs and of the bad PSMs, respectively. Hence, \\( 1-F_0(t) \\) is the probability to observe a bad PSM hit above the threshold and, \\( 1-F(t) \\) the probability to observe a target PSM hit above the threshold. The probability P[Bad hit|score x>t] is also referred to as the false discovery rate (FDR) of the set of PSMs with scores above the threshold t. Hence, the FDR has the interpretation of the probability on a bad hit in the set of all target hits that are returned in the final PSM list.
 
