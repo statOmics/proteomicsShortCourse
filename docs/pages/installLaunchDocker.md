@@ -75,7 +75,7 @@ Press enter! Then the jupyter hub environment will launch.
 Select New>Rstudio Session to launch the statistical software R.
 Now an interactive statistical programming environment will open in the browser that runs on a cloud server.
 
-#Close the Docker
+# Close the Docker
 
 1. Close RStudio
 2. Log off the jupyter environment
