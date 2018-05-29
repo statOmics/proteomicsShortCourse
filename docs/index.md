@@ -34,7 +34,7 @@ This course is oriented towards biologists and bioinformaticians with at least a
 #### Practical 1: [Evaluating target decoy quality](pages/Identification.md)
 
 ### 2. Statistical data analysis of label free quantitative proteomics experiments with simple designs
-#### [Statistical data analysis with MSqRob for simple designs] (assets/1_Identification_Evaluation_Target_Decoy_Approach.pdf)
+#### [Statistical data analysis with MSqRob for simple designs](assets/1_Identification_Evaluation_Target_Decoy_Approach.pdf)
 
 
 #### Practical 2: [Statistical data analysis with MSqRob for simple designs](pages/sdaMsqrobSimple.md)
