@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: default
 title: 2. Statistical analysis with MSqRob for simple designs
 mathjax: true
 ---
