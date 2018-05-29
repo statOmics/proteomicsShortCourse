@@ -12,17 +12,17 @@ Shotgun proteomics relies on the assignment of a large number of spectra to theo
 
 We first introduce some notation. With x we denote the PSM score and we assume that larger score values indicate a better match to the theoretical spectrum. Then the scores will follow a mixture distribution:
 
-$$f(x)=\pi_0 f_0 (x)+(1-\pi_0 ) f_1 (x),$$
+$$ f(x)=\pi_0 f_0 (x)+(1-\pi_0 ) f_1 (x), $$
 
 with $f(x)$ the target PSM score distribution, $f_0(x)$ the mixture component corresponding to incorrect PSMs, $f_0(x)$  the mixture component corresponding to the correct PSMs and $\pi_0$ the fraction of incorrect PSMs.
 Based on the mixture distribution we can calculate the posterior probability that a PSM with score x is a bad match:
 
-$$P[\text{Bad hit}\vert \text{score }  x]=\frac{\pi_0 f_0 (x)}{f(x)},$$
+$$ P[\text{Bad hit}\vert \text{score }  x]=\frac{\pi_0 f_0 (x)}{f(x)}, $$
 
 which is also referred to as the posterior error probability (PEP) in mass spectrometry based proteomics.
 Based on the mixture model, we can also calculate the posterior probability that a random PSM in the set of all PSMs with scores above a score threshold t is a bad hit (see e.g. Figure 1):
 
-$$P[\text{Bad hit}\vert \text{score }x>t]=\pi_0 \frac{1-F_0 (t)}{1-F(t)},$$
+$$ P[\text{Bad hit}\vert \text{score }x>t]=\pi_0 \frac{1-F_0 (t)}{1-F(t)}, $$
 
 With $F(t)$ and $F_0(t)$ the cumulative distribution functions of all target PSMs and of the bad PSMs, respectively. Hence, $1-F_0(t)$ is the probability to observe a bad PSM hit above the threshold and, $1-F(t)$ the probability to observe a target PSM hit above the threshold. The probability P[Bad hit|score x>t] is also referred to as the false discovery rate (FDR) of the set of PSMs with scores above the threshold t. Hence, the FDR has the interpretation of the probability on a bad hit in the set of all target hits that are returned in the final PSM list.
 
@@ -36,11 +36,11 @@ In proteomics this is done by the use of the target/decoy approach.
 
 When using a competitive target decoy search, the FDR of the set of returned PSMs is estimated by dividing the number of accepted decoys PSMs by the number of accepted target PSMs above a certain score cutoff [1].
 
-$$\widehat{\text{FDR}}(t)=\frac{\# decoys | x>t}{\#targets |x>t}$$
+$$ \widehat{\text{FDR}}(t)=\frac{\# decoys | x>t}{\#targets |x>t} $$
 
 This can be rewritten as:
-$$\widehat{\text{FDR}}(t)=\frac{\#decoys}{\#targets}\frac{\frac{\# decoys | x>t}{\#decoys}}{\frac{\#targets |x>t}{\#targets}}$$
-$$\widehat{\text{FDR}}(t)=\hat\pi_0\frac{1-\bar{F}_0(t)}{1-\bar{F}(t)}$$
+$$ \widehat{\text{FDR}}(t)=\frac{\#decoys}{\#targets}\frac{\frac{\# decoys | x>t}{\#decoys}}{\frac{\#targets |x>t}{\#targets}} $$
+$$ \widehat{\text{FDR}}(t)=\hat\pi_0\frac{1-\bar{F}_0(t)}{1-\bar{F}(t)} $$
 
 Hence, the proportion of bad hits $\pi_0$ is estimated as the number of decoys divided by the number of targets, and the competitive TDA assumes that it is equally likely that a bad hit matches to a bad target or to a decoy; the probability of  a (bad) target PSM hit above the threshold is estimated based on the empirical cumulative distribution in the sample, i.e. as the fraction of targets (decoys) that are above the threshold. Hence, a second assumption is that the decoy matches provide a good simulation of the target matches. See e.g. [2]. These assumptions can be evaluated with our EvalDecoyShiny App.
 
