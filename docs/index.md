@@ -5,11 +5,11 @@ tagline: Statistical Protemics
 description: FDR methods for identification & design, preprocessing, summarization and differential analysis of label free quantitative proteomics data
 ---
 
-##Proteomics Shortcourse
+## Proteomics Shortcourse
 
 Short course on statistical data analysis for proteomics with R shiny apps
 
-##Getting started
+## Getting started
 
 - Launch an R studio interface in an R docker along with bioconductor packages for proteomics.
 
