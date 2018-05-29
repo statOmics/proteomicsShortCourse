@@ -4,7 +4,7 @@ title: 0. Install and Launch Local Docker
 mathjax: true
 ---
 
-This is only necessary in the PC rooms the online docker that is linked to the github repository of the course times out when you do not interact with it for several minutes. 
+This is only necessary in the PC rooms the online docker that is linked to the github repository of the course times out when you do not interact with it for several minutes.
 
 #Install the Docker on the local machines.
 
@@ -16,7 +16,7 @@ You only have to do that once for every machine.
 2. type
 
 ```
-sudo docker load -i /media/GTPB_Shared_Drive/To_Participant/statsDocker/msqrob_docker.tar
+sudo docker load -i /media/gtpb_shared_drive/To_Participant/statsDocker/msqrob_docker.tar
 ```
 
 You have to run the command as a super user (sudo) because normal users do not have the permission to launch docker on the PCs in the tutorial roam.
