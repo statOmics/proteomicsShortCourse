@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: default
 title: 1. Identification: Evaluation of Target Decoy Approach
 mathjax: true
 ---
