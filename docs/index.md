@@ -31,4 +31,4 @@ This course is oriented towards biologists and bioinformaticians with at least a
 ### 1. Identification
 #### [Introductory slides to false discovery rate and the target decoy approach](assets/1_Identification_Evaluation_Target_Decoy_Approach.pdf)
 
-#### Practical 1: [Evaluating target decoy quality](pages/Identification.md)
+#### Practical 1: [Evaluating target decoy quality](pages/Identification.rmd)
