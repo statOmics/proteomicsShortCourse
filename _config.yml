@@ -1,0 +1,24 @@
+# Welcome to Jekyll!
+#
+# This config file is meant for settings that affect your whole blog, values
+# which you are expected to set up once and rarely need to edit after that.
+# For technical reasons, this file is *NOT* reloaded automatically when you use
+# 'jekyll serve'. If you change this file, please restart the server process.
+
+# Site settings
+title: Brendan A R Sechter's Development Blog
+email: bsechter@sennue.com
+description: > # this means to ignore newlines until "baseurl:"
+  I wanted a blog so I can post solutions to technical problems I find.
+  This is it.
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "http://sgeos.github.io" # the base hostname & protocol for your site
+twitter_username: brendan_sechter
+github_username:  sgeos
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+
+excerpt_separator: ""   # Workaround for http://blog.slaks.net/2013-08-09/jekyll-tag-was-never-closed
+
