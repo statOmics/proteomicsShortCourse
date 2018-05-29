@@ -53,13 +53,9 @@ Figure 2. Illustration of the target and decoy distributions, in grey the histog
 
 ## 1.3 Starting the App to evaluate TDA
 
-When working with the online binder version, browse to https://github.com/statOmics/proteomicsShortCourse and hit the binder button.
+When working with the online binder version, hit the binder button below:
 
-![Figure 2. Github repository with binder link](./figs/shortcourseGithub.png)
-
-Then the jupyter hub environment will launch. Select New>Rstudio Session to launch the R statistical software environment.
-
-![Figure 3. Jupyter Hub](./figs/jupyterhub.png)
+[![Binder](http://mybinder.org/badge.svg)](http://mybinder.org/v2/gh/statOmics/proteomicsShortCourse/master?urlpath=rstudio)
 
 Now an interactive statistical programming environment will open that is running on a cloud server. In this tutorial we will not make use of the powerful R-scripting environment, but we will launch an App with a GUI instead. Open the launchEvalDecoyShinyApp.R file by clicking on the file in the bottom right panel.
 

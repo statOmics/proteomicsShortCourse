@@ -33,5 +33,3 @@ This course is oriented towards biologists and bioinformaticians with at least a
 
 
 #### Practical 1: [Evaluating target decoy quality](pages/Identification.md)
-
-#### test: [test](pages/test.md)
