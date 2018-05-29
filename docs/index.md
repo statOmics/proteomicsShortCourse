@@ -22,6 +22,11 @@ Once inside Jupyter Notebook, RStudio Server should be an option under the menu
 
 ![](./pages/figs/rstudio-session.jpg)
 
+- Or you can install your own local docker by downloading the entire repository and invoking
+```
+docker build <path to proteomicsShortCourse directory> -t msqrob_docker
+```
+
 ## Target Audience
 This course is oriented towards biologists and bioinformaticians with at least an intermediate level of experience working with omics data. The course will be of particular interest to researchers investigating differential analysis for quantitative proteomics.
 
