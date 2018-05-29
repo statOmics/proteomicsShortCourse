@@ -96,14 +96,16 @@ When the assumptions of the concatenated TDA approach are violated, the dots in 
 When the PP-plot at lower percentiles deviates from a straight line, the distribution of decoys and the bad target PSMs is not equivalent, indicating that the decoys are not a good simulation of bad target hits.
 Both type of deviations should be of concern as they indicate that the FDR returned by the conventional concatenated TDA is incorrect.
 
-Evaluate the TDA for the  X!Tandem, OMSSA and  Peptide Shaker scores. What do you observe and try to explain. [1.4.b]
-
-Do the analysis for the Pyrococcus MSGF+ search based on a search that contains curated proteins from swissprot only. What do you observe explain. [1.4.c]
-
-Do the analysis for the Peptide shaker searches for pyrococcus based on the curated proteins from swissprot only. Evaluate all search engine scores. What do you observe explain. [1.4.d]
-
 Assess the search you performed in "Tutorial 1. Peptide and Protein Identification" at https://compomics.com/bioinformatics-for-proteomics/identification/
 Open the search from tutorial 1.3. in Peptide Shaker and export the search to an mzid file by clicking export > Peptide Shaker Project As > mzIdentML. Evaluate the TDA for the ommsa, X!Tandem and the Peptide Shaker score.
+
+Evaluate the TDA for the  X!Tandem, OMSSA and Peptide Shaker scores. What do you observe and try to explain. [1.4.b]
+
+Do the analysis for the search MSGF+, X!Tandem, OMSSA and Peptide Shaker scores based on all Pyrococcus proteins in Uniprot. What do you observe explain. [1.4.c]
+
+Do the analysis for the search MSGF+, X!Tandem, OMSSA and Peptide Shaker scores for pyrococcus based on the curated proteins from swissprot only. What do you observe. Try to explain. [1.4.d]
+
+
 
 ## References
 

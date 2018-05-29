@@ -27,6 +27,8 @@ This course is oriented towards biologists and bioinformaticians with at least a
 
 ## Detailed Program
 
+### 0. Installation of the Docker environment [Install and Launch Docker](pages/Identification.md)
+
 ### 1. Identification
 #### [Introductory slides to false discovery rate and the target decoy approach](assets/1_Identification_Evaluation_Target_Decoy_Approach.pdf)
 
@@ -34,7 +36,5 @@ This course is oriented towards biologists and bioinformaticians with at least a
 #### Practical 1: [Evaluating target decoy quality](pages/Identification.md)
 
 ### 2. Statistical data analysis of label free quantitative proteomics experiments with simple designs
-#### [Statistical data analysis with MSqRob for simple designs](assets/1_Identification_Evaluation_Target_Decoy_Approach.pdf)
-
 
 #### Practical 2: [Statistical data analysis with MSqRob for simple designs](pages/sdaMsqrobSimple.md)
