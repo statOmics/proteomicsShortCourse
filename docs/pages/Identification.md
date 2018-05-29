@@ -42,7 +42,9 @@ When using a competitive target decoy search, the FDR of the set of returned PSM
 $$ \widehat{\text{FDR}}(t)=\frac{\# decoys | x>t}{\#targets |x>t} $$
 
 This can be rewritten as:
+
 $$ \widehat{\text{FDR}}(t)=\frac{\#decoys}{\#targets}\frac{\frac{\# decoys | x>t}{\#decoys}}{\frac{\#targets |x>t}{\#targets}} $$
+
 $$ \widehat{\text{FDR}}(t)=\hat\pi_0\frac{1-\bar{F}_0(t)}{1-\bar{F}(t)} $$
 
 Hence, the proportion of bad hits \\( \pi_0 \\) is estimated as the number of decoys divided by the number of targets, and the competitive TDA assumes that it is equally likely that a bad hit matches to a bad target or to a decoy; the probability of  a (bad) target PSM hit above the threshold is estimated based on the empirical cumulative distribution in the sample, i.e. as the fraction of targets (decoys) that are above the threshold. Hence, a second assumption is that the decoy matches provide a good simulation of the target matches. See e.g. [2]. These assumptions can be evaluated with our EvalDecoyShiny App.
