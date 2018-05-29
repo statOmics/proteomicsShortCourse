@@ -1,7 +1,7 @@
 ---
 layout: page
 title: 1. Identification: Evaluation of Target Decoy Approach
-use_math: true
+mathjax: true
 ---
 
 #1. Identification: Evaluation of Target Decoy Approach
