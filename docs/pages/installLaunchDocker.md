@@ -47,17 +47,25 @@ The will enable us to view the jupyter server in the Docker via a webbrowser.
 
 We can interact with the docker via a web browser.
 
-3. Open Chrome
+3. Open Firefox
 
-type
+![Figure Launch Docker 1](./figs/launchDocker1b.png)
 
+A new window will appear where you have to fill a the token.
+You can copy the link token from the terminal.
+Here, it was,
 ```
-localhost:8888
+http://c924e5fb54b5:8888/?token=dd01e2e228d8200e8e2cba2f8fff2a9396f4c22b9068c4d5&token=dd01e2e228d8200e8e2cba2f8fff2a9396f4c22b9068c4d5
 ```
-in the location bar and copy the long token from the terminal after the 8888 in Chrome.
-Copy in linux is possible via highlighting text. Pasting can be done by pushing the middle mouse button.
 
-![Figure Launch Docker 1](./figs/launchDocker1.png)
+we first replace the machine name `c924e5fb54b5` by localhost and paste the adjusted adress in the browser.
+```
+http://localhost:8888/?token=dd01e2e228d8200e8e2cba2f8fff2a9396f4c22b9068c4d5&token=dd01e2e228d8200e8e2cba2f8fff2a9396f4c22b9068c4d5
+```
+
+
+Note, that copying in linux is possible via highlighting text. Pasting can be done by pushing the middle mouse button.
+
 ![Figure Launch Docker 2](./figs/launchDocker2.png)
 
 Press enter! Then the jupyter hub environment will launch.
@@ -66,3 +74,14 @@ Press enter! Then the jupyter hub environment will launch.
 
 Select New>Rstudio Session to launch the statistical software R.
 Now an interactive statistical programming environment will open in the browser that runs on a cloud server.
+
+#Close the Docker
+
+1. Close RStudio
+2. Log off the jupyter environment
+3. Open a new terminal and type the command
+
+```
+sudo docker stop c924e5fb54b5
+```
+where you replace `c924e5fb54b5` with the name of your docker.
