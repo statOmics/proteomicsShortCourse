@@ -1,8 +1,6 @@
 ---
 layout: page
 title: Statistical data analysis for proteomics
-tagline: Statistical Protemics
-description: FDR methods for identification & design, preprocessing, summarization and differential analysis of label free quantitative proteomics data
 ---
 
 ## Proteomics Shortcourse
