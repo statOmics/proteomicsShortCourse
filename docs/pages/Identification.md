@@ -73,7 +73,8 @@ The App is launched.
 
 The Pyrococcus furiosus (strain ATCC 43587 / DSM 3638 / JCM 8422 / Vc1) reference proteome. The resulting database has 2,051 proteins in total (https://www.uniprot.org/uniprot/?query=taxonomy:186497, taxonomy:"Pyrococcus furiosus (strain ATCC 43587 / DSM 3638 / JCM 8422 / Vc1) [186497]").
 
-Use the mzid file for the pyrococcus example, which can be found at AANVULLEN???
+The data can be found on https://github.com/statOmics/proteomicsShortcourseData
+Use the mzid file for the pyrococcus example, which can be found at data/identification/pyrococcusMSGF+.mzid
 When the file is uploaded, push the "Process mzid file" button. It will take a while to process the file and you will see that the "Process mzid file" becomes light blue and that an activity indicator appears next to the button.
 
 ![Figure 6. Processing mzid file](./figs/evaluateDecoys2.png)
@@ -96,14 +97,16 @@ When the assumptions of the concatenated TDA approach are violated, the dots in 
 When the PP-plot at lower percentiles deviates from a straight line, the distribution of decoys and the bad target PSMs is not equivalent, indicating that the decoys are not a good simulation of bad target hits.
 Both type of deviations should be of concern as they indicate that the FDR returned by the conventional concatenated TDA is incorrect.
 
-Assess the search you performed in "Tutorial 1. Peptide and Protein Identification" at https://compomics.com/bioinformatics-for-proteomics/identification/
+### 1. Assess the search you performed in "Tutorial 1. Peptide and Protein Identification" at https://compomics.com/bioinformatics-for-proteomics/identification/
 Open the search from tutorial 1.3. in Peptide Shaker and export the search to an mzid file by clicking export > Peptide Shaker Project As > mzIdentML. Evaluate the TDA for the ommsa, X!Tandem and the Peptide Shaker score.
 
-Evaluate the TDA for the  X!Tandem, OMSSA and Peptide Shaker scores. What do you observe and try to explain. [1.4.b]
+Evaluate the TDA for the  X!Tandem, OMSSA and Peptide Shaker scores. What do you observe and try to explain. [1.4.a]
 
-Do the analysis for the search MSGF+, X!Tandem, OMSSA and Peptide Shaker scores based on all Pyrococcus proteins in Uniprot. What do you observe explain. [1.4.c]
+### 2. Pyrococcus - Peptide Shaker - Uniprot search
+Do the analysis for the search MSGF+, X!Tandem, OMSSA and Peptide Shaker scores based on all Pyrococcus proteins in a search against all pyrococcus peptides in Uniprot (data/identification/pyroUniprot.mzid). What do you observe explain. [1.4.b]
 
-Do the analysis for the search MSGF+, X!Tandem, OMSSA and Peptide Shaker scores for pyrococcus based on the curated proteins from swissprot only. What do you observe. Try to explain. [1.4.d]
+### 2. Pyrococcus/Peptide Shaker - Swiss prot search
+Do the analysis for the search MSGF+, X!Tandem, OMSSA and Peptide Shaker scores for Pyrococcus based on the curated proteins from swissprot only. What do you observe. Try to explain. [1.4.c]
 
 
 
