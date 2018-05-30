@@ -111,9 +111,9 @@ Do the analysis for the search MSGF+, X!Tandem, OMSSA and Peptide Shaker scores 
 ### 4. FDR Elias and Gygi, 2007
 Elias and Gygi, 2007, reported the following target decoy FDR estimation:
 
-$$\widehat{\text{FDR}}(t)=\frac {2 \#decoys >t}{\#decoys > t + \#targets > t}$$
+$$\widehat{\text{FDR}}(t)=\frac {2 \times (\#decoys >t)}{\#decoys > t + \#targets > t}$$
 
-Do you agree with this expression? Why, why not? 
+Do you agree with this expression? Why, why not?
 
 
 ## References
