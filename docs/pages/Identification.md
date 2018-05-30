@@ -106,7 +106,7 @@ Evaluate the TDA for the  X!Tandem, OMSSA and Peptide Shaker scores. What do you
 Do the analysis for the search MSGF+, X!Tandem, OMSSA and Peptide Shaker scores based on all Pyrococcus proteins in a search against all pyrococcus peptides in Uniprot (data/identification/pyroUniprot.mzid). What do you observe explain. [1.4.b]
 
 ### 2. Pyrococcus/Peptide Shaker - Swiss prot search
-Do the analysis for the search MSGF+, X!Tandem, OMSSA and Peptide Shaker scores for Pyrococcus based on the curated proteins from swissprot only. What do you observe. Try to explain. [1.4.c]
+Do the analysis for the search MSGF+, X!Tandem, OMSSA and Peptide Shaker scores for Pyrococcus based on the curated proteins from swissprot only (data/identification/pyroSwissprot.mzid). What do you observe. Try to explain. [1.4.c]
 
 
 
