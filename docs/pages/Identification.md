@@ -105,9 +105,15 @@ Evaluate the TDA for the  X!Tandem, OMSSA and Peptide Shaker scores. What do you
 ### 2. Pyrococcus - Peptide Shaker - Uniprot search
 Do the analysis for the search MSGF+, X!Tandem, OMSSA and Peptide Shaker scores based on all Pyrococcus proteins in a search against all pyrococcus peptides in Uniprot (data/identification/pyroUniprot.mzid). What do you observe explain. [1.4.b]
 
-### 2. Pyrococcus/Peptide Shaker - Swiss prot search
+### 3. Pyrococcus/Peptide Shaker - Swiss prot search
 Do the analysis for the search MSGF+, X!Tandem, OMSSA and Peptide Shaker scores for Pyrococcus based on the curated proteins from swissprot only (data/identification/pyroSwissprot.mzid). What do you observe. Try to explain. [1.4.c]
 
+### 4. FDR Elias and Gygi, 2007
+Elias and Gygi, 2007, reported the following target decoy FDR estimation:
+
+$$\widehat{\text{FDR}}(t)=\frac {2 \#decoys >t}{\#decoys > t + \#targets > t}$$
+
+Do you agree with this expression? Why, why not? 
 
 
 ## References
