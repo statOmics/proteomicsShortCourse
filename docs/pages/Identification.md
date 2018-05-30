@@ -113,7 +113,7 @@ Elias and Gygi, 2007, reported the following target decoy FDR estimation:
 
 $$\widehat{\text{FDR}}(t)=\frac {2 \times (\#decoys >t)}{\#decoys > t + \#targets > t}$$
 
-Do you agree with this expression? Why, why not?
+Do you agree with this expression? Why, why not? [1.4.d]
 
 
 ## References
