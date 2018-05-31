@@ -35,7 +35,7 @@ This course is oriented towards biologists and bioinformaticians with at least a
 ### 0. Installation of the Docker environment [Install and Launch Docker](pages/installLaunchDocker.md)
 
 ### 1. Identification
-#### [Introductory slides to false discovery rate and the target decoy approach](assets/1_Identification_Evaluation_Target_Decoy_Approach.pdf)
+#### [Slides on FDR and the target decoy approach](assets/1_Identification_Evaluation_Target_Decoy_Approach.pdf)
 
 #### Practical 1: [Evaluating target decoy quality](pages/Identification.md)
 
