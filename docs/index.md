@@ -42,6 +42,7 @@ This course is oriented towards biologists and bioinformaticians with at least a
 ### 2. Statistical data analysis of label free quantitative proteomics experiments with simple designs
 
 #### [Slides on Preprocessing](assets/2_MSqRob_data_analysisI.pdf)
+#### [Slides on results of preprocessing](assets/2_MSqRob_data_analysisIb.pdf)
 #### [Slides on Statistical Inference](assets/2_MSqRob_data_analysisII.pdf)
 
 #### Practical 2: [Statistical data analysis with MSqRob for simple designs](pages/sdaMsqrobSimple.md)
