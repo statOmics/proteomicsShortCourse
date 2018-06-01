@@ -43,9 +43,10 @@ This course is oriented towards biologists and bioinformaticians with at least a
 
 #### [Slides on Preprocessing](assets/2_MSqRob_data_analysisI.pdf)
 #### [Slides on results of preprocessing](assets/2_MSqRob_data_analysisIb.pdf)
-#### [Slides on Statistical Inference](assets/2_MSqRob_data_analysisII.pdf)
 
 #### Practical 2: [Statistical data analysis with MSqRob for simple designs](pages/sdaMsqrobSimple.md)
 #### Robust regression explained by example: [robust regression](pages/robustRegression.nb.html)
 
 ### 3. Statistical analysis of label free quantitative proteomics experiments with complex designs
+#### [Slides on Statistical Inference](assets/2_MSqRob_data_analysisII.pdf)
+#### Practical 3: [Statistical data analysis with MSqRob for simple designs](pages/sdaMsqrobDesign.md)
