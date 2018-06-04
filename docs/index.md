@@ -35,18 +35,17 @@ This course is oriented towards biologists and bioinformaticians with at least a
 ### 0. Installation of the Docker environment [Install and Launch Docker](pages/installLaunchDocker.md)
 
 ### 1. Identification
-#### [Slides on FDR and the target decoy approach](assets/1_Identification_Evaluation_Target_Decoy_Approach.pdf)
+#### Slides 1:  [FDR and the target decoy approach](assets/1_Identification_Evaluation_Target_Decoy_Approach.pdf)
 
 #### Practical 1: [Evaluating target decoy quality](pages/Identification.md)
 
 ### 2. Statistical data analysis of label free quantitative proteomics experiments with simple designs
 
-#### [Slides on Preprocessing](assets/2_MSqRob_data_analysisI.pdf)
-#### [Slides on results of preprocessing](assets/2_MSqRob_data_analysisIb.pdf)
+#### Slides 2: [Preprocessing](assets/2_MSqRob_data_analysisI.pdf), [Results of preprocessing](assets/2_MSqRob_data_analysisIb.pdf)
 
 #### Practical 2: [Statistical data analysis with MSqRob for simple designs](pages/sdaMsqrobSimple.md)
-#### Robust regression explained by example: [robust regression](pages/robustRegression.nb.html)
+#### Robust regression: [Robust regression explained by example](pages/robustRegression.nb.html)
 
 ### 3. Statistical analysis of label free quantitative proteomics experiments with complex designs
-#### [Slides on Statistical Inference](assets/2_MSqRob_data_analysisII.pdf)
-#### Practical 3: [Statistical data analysis with MSqRob for simple designs](pages/sdaMsqrobDesign.md)
+#### Slides 3 [Statistical Inference](assets/2_MSqRob_data_analysisII.pdf)
+#### Practical 3: [Statistical data analysis with MSqRob for more complex designs](pages/sdaMsqrobDesign.md)

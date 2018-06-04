@@ -52,7 +52,7 @@ We provided 3 peptides txt files.
 2. For a 6 vs 6 comparison
 3. For a 9 vs 9 comparison
 
-The data can be found at proteomicsShortCourse > data > quantification > cancer.
+The data can be found at proteomicsShortCourse/data/quantification/breastcancer
 
 Perform an MSqRob analysis for each peptide file. What is the impact of the sample size on the results?
 Explain why.
@@ -61,6 +61,8 @@ Explain why.
 ## 2.4. Blocking: CPTAC dataset
 
 The 6th study of the Clinical Proteomic Technology Assessment for Cancer (CPTAC). In this experiment, the authors spiked the Sigma Universal Protein Standard mixture 1 (UPS1) containing 48 different human proteins in a protein background of 60 ng/μL Saccharomyces cerevisiae strain BY4741 (MATa, leu2Δ0, met15Δ0, ura3Δ0, his3Δ1). Five different spike-in concentrations were used: 6A (0.25 fmol UPS1 proteins/μL), 6B (0.74 fmol UPS1 proteins/μL), 6C (2.22 fmol UPS1 proteins/μL), 6D (6.67 fmol UPS1 proteins/μL) and 6E (20 fmol UPS1 proteins/μL) [6]. The raw data files can be downloaded from https://cptac-data-portal.georgetown.edu/cptac/public?scope=Phase+I (Study 6). We limited ourselves to the data of LTQ-Orbitrap at site 86, LTQ-Orbitrap O at site 65 and LTQ-Orbitrap W at site 56. The data were searched with MaxQuant version 1.5.2.8, and detailed search settings were described in Goeminne et al. (2016) [1]. The experiment is conceived as a randomized complete block design with lab as a blocking factor. For every lab, 3 replicates are available for each concentration.
+
+The data can be found at proteomicsShortCourse/data/quantification/cptac
 
 ### 2.4.1. Which factors will you use in the mean model?
 
@@ -83,3 +85,5 @@ The 6th study of the Clinical Proteomic Technology Assessment for Cancer (CPTAC)
 
  ### 2.5.1. Which factors will you use in the mean model?
  ### 2.5.2. Define each of the contrasts and give their interpretation?
+
+ The data can be found at proteomicsShortCourse/data/quantification/heart
